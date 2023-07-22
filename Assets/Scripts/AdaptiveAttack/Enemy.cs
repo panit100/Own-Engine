@@ -6,6 +6,9 @@ namespace AdaptiveAttack
 {
     public class Enemy : MonoBehaviour
     {
-        
+        public void OnHit()
+        {
+            Debug.Log($"{this.name} : Hit");
+        }
     }
 }
