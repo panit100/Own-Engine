@@ -340,7 +340,9 @@ GameObject:
   - component: {fileID: 408664989}
   - component: {fileID: 408664994}
   - component: {fileID: 408664993}
+  - component: {fileID: 408664996}
   - component: {fileID: 408664992}
+  - component: {fileID: 408664995}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -425,7 +427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc558c3e4b21cdc46b038744fa5ef653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
 --- !u!54 &408664993
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -440,7 +441,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 2
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!65 &408664994
 BoxCollider:
@@ -455,6 +456,33 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &408664995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408664987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f76cfbc318485f41b78b056ca3ae9ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  jumpForce: 500
+  jumpTime: 10
+--- !u!114 &408664996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408664987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64107c88b8d243b4488483e0bc9f2557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &926198477
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,6 +493,7 @@ GameObject:
   m_Component:
   - component: {fileID: 926198479}
   - component: {fileID: 926198478}
+  - component: {fileID: 926198480}
   m_Layer: 0
   m_Name: InputSystemManager
   m_TagString: Untagged
@@ -518,6 +547,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &926198480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926198477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 854dbb86a06752e4b9457d2171cb5cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInputAction: {fileID: -944628639613478452, guid: bad9b65b3223d744b9c5d0aa23a0a593,
+    type: 3}
 --- !u!1 &1148938068
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,9 +573,9 @@ GameObject:
   - component: {fileID: 1148938071}
   - component: {fileID: 1148938070}
   - component: {fileID: 1148938069}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
