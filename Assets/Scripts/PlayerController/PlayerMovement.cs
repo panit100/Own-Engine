@@ -8,14 +8,22 @@ namespace CuteEngine.Player.Controller
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] float speed = 10f;
-        [SerializeField] float jumpForce = 10f;
-        [SerializeField] float jumpTime = 10f;
+        const float GAVITY = 9.8f;
+
+        [SerializeField] AnimationCurve speed;
+        [SerializeField] float jumpHight = 10f;
+        [SerializeField] AnimationCurve jumpSpeed;
 
         Vector3 direction;
+        float maxJumpHight;
 
         float checkGroundRange = .6f;
         bool isOnGround = true;
+        bool isFall = false;
+        bool isJump = false;
+
+        float moveTime = 0;
+        float jumpTime = 0;
         
         Rigidbody rb;
 
@@ -41,31 +49,77 @@ namespace CuteEngine.Player.Controller
         void Update()
         {
             Move();
-            // CheckGround();
+            CalculateJump();
+            CalculateGavity();
+
+            CheckGround();
         }
 
         void Move()
         {
-            transform.position += direction * speed * Time.deltaTime;
+            transform.position += direction * speed.Evaluate(moveTime) * Time.deltaTime;
+
+            moveTime += Time.deltaTime;
+            
+            if(direction == Vector3.zero)
+                moveTime = 0;
         }
 
         void Jump()
         {
             if(!isOnGround)
                 return;
-                
-            rb.AddForce(Vector3.up * jumpForce,ForceMode.Acceleration);
+            
+            maxJumpHight = transform.position.y + jumpHight;
 
             isOnGround = false;
+            isFall = false;
+            isJump = true;
         }
 
-        // void CheckGround()
-        // {
-        //     if(Physics.Raycast(transform.position,Vector3.down,checkGroundRange,LayerMask.GetMask("Ground")))
-        //     {
-        //         isOnGround = true;
-        //     }
-        // }
+        void CalculateJump()
+        {
+            if(!isJump)
+            {
+                jumpTime = 0;
+                return;
+            }
+
+            Vector3 nextPos = transform.position + new Vector3(0,1 * jumpSpeed.Evaluate(jumpTime) * Time.deltaTime,0);
+
+            if(transform.position.y >= maxJumpHight)
+            {
+                isJump = false;
+                isFall = true;
+                return;
+            }
+            
+            transform.position = nextPos;
+
+            jumpTime += Time.deltaTime;
+        }
+
+        void CalculateGavity()
+        {
+            if(!isFall)
+                return;
+
+            Vector3 nextPos = transform.position - new Vector3(0,1 * GAVITY * Time.deltaTime,0);
+
+            transform.position = nextPos;
+        }
+
+        void CheckGround()
+        {
+            if(!isFall)
+                return;
+
+            if(Physics.Raycast(transform.position,Vector3.down,checkGroundRange,LayerMask.GetMask("Ground")))
+            {
+                isOnGround = true;
+                isFall = false;
+            }
+        }
 
         void OnMove(Vector2 value)
         {
@@ -88,20 +142,20 @@ namespace CuteEngine.Player.Controller
             Gizmos.DrawRay(transform.position,Vector3.down * checkGroundRange);
         }
 
-        void OnCollisionEnter(Collision other) 
-        {
-            if(other.gameObject.CompareTag("Ground"))
-            {
-                isOnGround = true;
-            }
-        }
+        // void OnCollisionEnter(Collision other) 
+        // {
+        //     if(other.gameObject.CompareTag("Ground"))
+        //     {
+        //         isOnGround = true;
+        //     }
+        // }
 
-        void OnCollisionExit(Collision other) 
-        {
-            if(other.gameObject.CompareTag("Ground"))
-            {
-                isOnGround = false;
-            }
-        }
+        // void OnCollisionExit(Collision other) 
+        // {
+        //     if(other.gameObject.CompareTag("Ground"))
+        //     {
+        //         isOnGround = false;
+        //     }
+        // }
     }
 }
