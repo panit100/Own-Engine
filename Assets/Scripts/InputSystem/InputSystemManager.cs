@@ -20,6 +20,7 @@ namespace CuteEngine.InputSystem
         public UnityAction<Vector2> onMove;
         public UnityAction onJump;
         public UnityAction onNextDialogue;
+        public UnityAction onSkipDialogue;
 
 #endregion
 
@@ -98,6 +99,11 @@ namespace CuteEngine.InputSystem
         void OnNextDialogue(InputValue value)
         {
             onNextDialogue?.Invoke();
+        }
+
+        void OnSkipDialogue(InputValue value)
+        {
+            onSkipDialogue?.Invoke();
         }
 #endregion
     }

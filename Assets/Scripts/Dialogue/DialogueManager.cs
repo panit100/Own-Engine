@@ -20,6 +20,7 @@ namespace CuteEngine.Utilities.Dialogue
         [ContextMenuItem("OnPlayDialogue","OnPlayDialogue")]
         public string nextDialogueID;
         public List<DialogueData> DialogueDataList = new List<DialogueData>();
+        [Range(0f,1f)]
         public float textSpeed;
 
         DialogueData currentDialogueData = null;
@@ -36,10 +37,23 @@ namespace CuteEngine.Utilities.Dialogue
         {
             InputSystemManager.Instance.ToggleDialogueControl(true); //TODO Remove when finish
 
-            InputSystemManager.Instance.onNextDialogue += OnNextDialogue;
-            InputSystemManager.Instance.onNextDialogue += SpeedDialogue;
+            AddInputAction();
 
             CreateDialogueCanvas();
+        }
+
+        void AddInputAction()
+        {
+            InputSystemManager.Instance.onNextDialogue += OnNextDialogue;
+            InputSystemManager.Instance.onNextDialogue += SpeedDialogue;
+            InputSystemManager.Instance.onSkipDialogue += SkipDialogue;
+        }
+
+        void RemoveInputAction()
+        {
+            InputSystemManager.Instance.onNextDialogue -= OnNextDialogue;
+            InputSystemManager.Instance.onNextDialogue -= SpeedDialogue;
+            InputSystemManager.Instance.onSkipDialogue -= SkipDialogue;
         }
 
         void CreateDialogueCanvas()
@@ -75,7 +89,7 @@ namespace CuteEngine.Utilities.Dialogue
             {
                 //TODO Add end dialogue action
                 nextDialogueID = dialogueData.NextDialogueID;
-
+                OnDialogueEnd();
                 dialogueStatus = DialogueStatus.END;
             }
             else
@@ -86,7 +100,6 @@ namespace CuteEngine.Utilities.Dialogue
 
         public void SpeedDialogue()
         {
-            //TODO if dialogue is showing and not finish. make dialogue to show all text
             if(dialogueStatus == DialogueStatus.TYPING)
             {
                 StopCoroutine(displayTextCoroutine);
@@ -97,7 +110,9 @@ namespace CuteEngine.Utilities.Dialogue
 
         public void SkipDialogue()
         {
-            //TODO Skip Dialogue
+            //TODO Skip Dialogue and close DialogeCanvas
+            StopCoroutine(displayTextCoroutine);
+            OnLastDialogueEnd();
         }
 
         DialogueData GetNextDialogue(string dialogueID)
@@ -107,34 +122,54 @@ namespace CuteEngine.Utilities.Dialogue
 
         void ContinueDialogue()
         {
-            if(dialogueStatus != DialogueStatus.END)
-            {
-                Debug.LogError("Dialogue didn't finish.");
+            if(IsDialogueNotEnd())
                 return;
-            }
 
-            if(currentDialogueData == null)
-            {
-                Debug.LogError("Don't have next dialogue.");
+            if(IsCurrentDialogueNull())
                 return;
-            }
 
-            if(currentDialogueData.NextDialogueID != "")
+            if(IsHaveNextDialogue())
             {
-                print("Next Dialogue");
                 currentDialogueData = null;
-
                 StartDialogue(GetNextDialogue(nextDialogueID));
                 nextDialogueID = "";
                 return;
             }
             else
             {
-                currentDialogueData = null;
-                print("Dialogue End");
-
+                OnLastDialogueEnd();
                 return;
             }
+        }
+
+        bool IsDialogueNotEnd()
+        {
+            if(dialogueStatus != DialogueStatus.END)
+            {
+                Debug.LogError("Dialogue didn't finish.");
+                return true;
+            }
+            else
+                return false;
+        }
+
+        bool IsCurrentDialogueNull()
+        {
+            if(currentDialogueData == null)
+            {
+                Debug.LogError("Don't have next dialogue.");
+                return true;
+            }
+            else
+                return false;
+        }
+
+        bool IsHaveNextDialogue()
+        {
+            if(currentDialogueData.NextDialogueID != "")
+                return true;
+            else
+                return false;
         }
 
         void UpdateDialogueUI(DialogueData dialogueData)
@@ -171,11 +206,26 @@ namespace CuteEngine.Utilities.Dialogue
             ContinueDialogue();
         }
 
+        void OnDialogueEnd()
+        {
+            //TODO Run function when each dialogue end
+        }
+
+        void OnLastDialogueEnd()
+        {
+            currentDialogueData = null;
+        }
+
 #region  Test function
         void OnPlayDialogue()
         {
             StartDialogue(DialogueDataList[0]);
         }
 #endregion
+
+        void OnDestroy() 
+        {
+            RemoveInputAction();
+        }
     }
 }

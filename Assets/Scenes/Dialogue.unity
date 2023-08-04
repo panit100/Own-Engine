@@ -666,7 +666,7 @@ GameObject:
   - component: {fileID: 782828975}
   - component: {fileID: 782828974}
   m_Layer: 5
-  m_Name: Character1
+  m_Name: MainCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1136,18 +1136,22 @@ MonoBehaviour:
   DialogueDataList:
   - ID: 0
     CharacterName: Cute
+    CharacterSprite: {fileID: 21300000, guid: fd4cf4adb71ad5f48b1acdbe302ddc4b, type: 3}
     DialogueText: Hi!
     NextDialogueID: 1
   - ID: 1
-    CharacterName: Cute
+    CharacterName: Jaja
+    CharacterSprite: {fileID: 21300000, guid: 43210169a33f7464ab1f54dba9214484, type: 3}
     DialogueText: Hello!
     NextDialogueID: 2
   - ID: 2
     CharacterName: Cute
+    CharacterSprite: {fileID: 21300000, guid: fd4cf4adb71ad5f48b1acdbe302ddc4b, type: 3}
     DialogueText: How r u?
     NextDialogueID: 3
   - ID: 3
-    CharacterName: Cute
+    CharacterName: Jaja
+    CharacterSprite: {fileID: 21300000, guid: 43210169a33f7464ab1f54dba9214484, type: 3}
     DialogueText: I'm ok. but today i'm feeling sad.
     NextDialogueID: 
   textSpeed: 0.1
@@ -1254,7 +1258,7 @@ GameObject:
   - component: {fileID: 1640981761}
   - component: {fileID: 1640981760}
   m_Layer: 5
-  m_Name: Character2
+  m_Name: SubCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1438,7 +1442,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 939187959}
-  character: {fileID: 1750438360}
+  mainCharacterName: {fileID: 1750438360}
+  mainCharacterImage: {fileID: 1903910893}
+  subCharacterName: {fileID: 374467781}
+  subCharacterImage: {fileID: 1560302003}
 --- !u!1 &1750438358
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ namespace CuteEngine.Utilities.Dialogue
     {
         public string ID;
         public string CharacterName;
+        public Sprite CharacterSprite;
         public string DialogueText;
         public string NextDialogueID;
 

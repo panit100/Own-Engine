@@ -10,13 +10,22 @@ namespace CuteEngine.Utilities.Dialogue
     {
         public TMP_Text dialogueText;
 
-        public TMP_Text character;
+        [Header("Main Character")]
+        public TMP_Text mainCharacterName;
+        public Image mainCharacterImage;
+
+        [Header("Sub Character")]
+        public TMP_Text subCharacterName;
+        public Image subCharacterImage;
 
         public void UpdateDialogueUI(DialogueData dialogueData)
         {
             //TODO Update Character Image and Name
             
-            character.text = dialogueData.CharacterName;
+            mainCharacterName.text = dialogueData.CharacterName;
+
+            mainCharacterImage.sprite = dialogueData.CharacterSprite;
+            mainCharacterImage.SetNativeSize();
         }
 
         public void UpdateDialogueText(string text)
