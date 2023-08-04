@@ -11,6 +11,7 @@ namespace CuteEngine.InputSystem
     {
         const string PLAYER_ACTIONMAP = "Player";
         const string UI_ACTIONMAP = "UI";
+        const string DIALOGUE_ACTIONMAP = "Dialogue";
 
         [SerializeField] InputActionAsset playerInputAction;
 
@@ -18,20 +19,24 @@ namespace CuteEngine.InputSystem
 
         public UnityAction<Vector2> onMove;
         public UnityAction onJump;
+        public UnityAction onNextDialogue;
 
 #endregion
 
         InputActionMap playerControlMap;
         InputActionMap uiControlMap;
+        InputActionMap dialogueControlMap;
 
         bool globalInputEnable = false;
         bool playerControlEnable = true;   
-        bool uiControlMapEnable = true;
+        bool uiControlMapEnable = false;
+        bool dialogueControlMapEnable = false;
 
         protected override void InitAfterAwake()
         {
             playerControlMap = playerInputAction.FindActionMap(PLAYER_ACTIONMAP);
             uiControlMap = playerInputAction.FindActionMap(UI_ACTIONMAP);
+            dialogueControlMap = playerInputAction.FindActionMap(DIALOGUE_ACTIONMAP);
         }
 
         void Start() 
@@ -41,21 +46,27 @@ namespace CuteEngine.InputSystem
 
 #region ToggleInput
 
-        void ToggleGlobalInput(bool toggle)
+        public void ToggleGlobalInput(bool toggle)
         {
             globalInputEnable = toggle;
             UpdateInputState();
         }
 
-        void TogglePlayerControl(bool toggle)
+        public void TogglePlayerControl(bool toggle)
         {
             playerControlEnable = toggle;
             UpdateInputState();
         }
 
-        void ToggleUIControl(bool toggle)
+        public void ToggleUIControl(bool toggle)
         {
             uiControlMapEnable = toggle;
+            UpdateInputState();
+        }
+
+        public void ToggleDialogueControl(bool toggle)
+        {
+            dialogueControlMapEnable = toggle;
             UpdateInputState();
         }
 
@@ -66,6 +77,9 @@ namespace CuteEngine.InputSystem
 
             if(globalInputEnable && uiControlMapEnable) uiControlMap.Enable();
             else uiControlMap.Disable();
+
+            if(globalInputEnable && dialogueControlMapEnable) dialogueControlMap.Enable();
+            else dialogueControlMap.Disable();
         }
 
 #endregion
@@ -79,6 +93,11 @@ namespace CuteEngine.InputSystem
         void OnJump(InputValue value)
         {
             onJump?.Invoke();
+        }
+
+        void OnNextDialogue(InputValue value)
+        {
+            onNextDialogue?.Invoke();
         }
 #endregion
     }
