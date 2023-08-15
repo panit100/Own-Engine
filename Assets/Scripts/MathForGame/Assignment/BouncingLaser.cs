@@ -37,28 +37,31 @@ public class BouncingLaser : MonoBehaviour
     }
 
     private void OnDrawGizmos() {
-        GetComponent<LineRenderer>().positionCount = bouncingCount+2;
+        // GetComponent<LineRenderer>().positionCount = bouncingCount+2;
         RaycastHit hit;
 
         Vector2 origin = transform.position;
         Vector2 dir = transform.right;
         Ray ray = new Ray(origin, dir);
 
-        Gizmos.DrawLine(origin, origin + dir);
         
-        GetComponent<LineRenderer>().SetPosition(0, origin);
+        
+        // GetComponent<LineRenderer>().SetPosition(0, origin);
 
-        for(int i = 0; i < bouncingCount+1; i++)
+        for(int i = 0; i < bouncingCount; i++)
         {
             if(Physics.Raycast(ray,out hit))
             {
-                GetComponent<LineRenderer>().SetPosition(i+1, hit.point);
+                // GetComponent<LineRenderer>().SetPosition(i+1, hit.point);
+                Gizmos.DrawLine(ray.origin, hit.point);
                 Gizmos.DrawSphere(hit.point,0.1f);
                 Vector2 reflecDirection = ReflectDir(ray.direction,hit.normal);
-                Gizmos.DrawLine(hit.point, (Vector2)hit.point + reflecDirection);
+                // Gizmos.DrawLine(hit.point, (Vector2)hit.point + reflecDirection);
+                ray.origin = hit.point;
+                ray.direction = reflecDirection;
             }
-
-            ray = new Ray(hit.point, ReflectDir(ray.direction,hit.normal));
+            else
+                break;
         }
 
 
