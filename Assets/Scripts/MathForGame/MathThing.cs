@@ -10,7 +10,7 @@ public class MathThing : MonoBehaviour
     public float scProj;
 
     public Vector2 vecProj;
-    
+
     void OnDrawGizmos() 
     {
         Vector2 a = A.position;
@@ -51,7 +51,5 @@ public class MathThing : MonoBehaviour
         Vector2 reflectVec = (-2 * _b ) + b;
 
         Gizmos.DrawSphere(reflectVec,0.1f);
-
-
     }
 }
