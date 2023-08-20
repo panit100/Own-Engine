@@ -40,8 +40,8 @@ public class BouncingLaser : MonoBehaviour
         // GetComponent<LineRenderer>().positionCount = bouncingCount+2;
         RaycastHit hit;
 
-        Vector2 origin = transform.position;
-        Vector2 dir = transform.right;
+        Vector3 origin = transform.position;
+        Vector3 dir = transform.forward;
         Ray ray = new Ray(origin, dir);
 
         
@@ -79,9 +79,9 @@ public class BouncingLaser : MonoBehaviour
     }
 
 
-    Vector2 ReflectDir(Vector2 inDir,Vector2 normalSurface)
+    Vector3 ReflectDir(Vector3 inDir,Vector3 normalSurface)
     {
-        float proj = Vector2.Dot(inDir,normalSurface);
+        float proj = Vector3.Dot(inDir,normalSurface);
         return inDir - 2 * proj * normalSurface;
     }
 }
