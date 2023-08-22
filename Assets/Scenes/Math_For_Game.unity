@@ -237,7 +237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &91958795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1749,8 +1749,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   A: {fileID: 582279115}
   B: {fileID: 362366568}
-  scProj: 1.34
-  vecProj: {x: 0, y: 1.34}
+  scProj: 1.8115772
+  vecProj: {x: 0.46279603, y: 1.7514656}
 --- !u!1 &474283733
 GameObject:
   m_ObjectHideFlags: 0
@@ -2096,14 +2096,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582279114}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.92, z: -0.0033469365}
+  m_LocalRotation: {x: -0, y: -0, z: -0.18508449, w: 0.98272264}
+  m_LocalPosition: {x: 0.181, y: 0.685, z: -0.0033469365}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -21.332}
 --- !u!1 &609785894
 GameObject:
   m_ObjectHideFlags: 0
@@ -2803,7 +2803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &861803710
 Transform:
   m_ObjectHideFlags: 0
@@ -3144,7 +3144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &952370340
 Transform:
   m_ObjectHideFlags: 0
@@ -4809,7 +4809,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1610642036
 Transform:
   m_ObjectHideFlags: 0
@@ -5035,7 +5035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1738364481
 Transform:
   m_ObjectHideFlags: 0
@@ -5810,7 +5810,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028325349}
   m_LocalRotation: {x: -0, y: -0, z: 0.5413126, w: 0.8408215}
-  m_LocalPosition: {x: 1, y: 2, z: 0}
+  m_LocalPosition: {x: 2.23, y: 1.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5829,7 +5829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68e3ff54a51bf6c4a8743f351fe003df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPos: {x: 0, y: 0, z: 0}
+  localPos: {x: -0.24518716, y: 1.239711, z: 0}
   worldPos: {x: 1, y: 2, z: 0}
 --- !u!1 &2124166402
 GameObject:
