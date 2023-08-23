@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subPlanet: {fileID: 1425947328}
   offset: 5
-  rotateSpeed: 20
+  rotateSpeed: 0.5
   waitingTime: 0
 --- !u!1 &608614638
 GameObject:
@@ -328,7 +328,7 @@ Transform:
   m_GameObject: {fileID: 608614638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.59341, y: 0.59341, z: 0.59341}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -644,6 +644,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subPlanet: {fileID: 608614642}
-  offset: 2
-  rotateSpeed: 30
+  offset: 1
+  rotateSpeed: 1
   waitingTime: 1
