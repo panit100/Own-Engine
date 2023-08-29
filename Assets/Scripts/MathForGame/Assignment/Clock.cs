@@ -94,6 +94,14 @@ public class Clock : MonoBehaviour
 
     void ShowNormalHour(DateTime time)
     {
+        float seconds = time.Second;
+        if(moveSmoothly)
+            seconds += time.Millisecond / 1000f;
+
+        vSec = SecondsOrMinutesToDirection(seconds);
+        vMin = SecondsOrMinutesToDirection(time.Minute);
+        vHour = HourToDirection (time.Hour);
+
         // float hourDeg = time.Hour * 15;
         // float hourReg = (hourDeg + 90) * Mathf.Deg2Rad;
 
@@ -106,14 +114,6 @@ public class Clock : MonoBehaviour
         // vHour = new Vector2(-Mathf.Cos(hourReg),Mathf.Sin(hourReg));
         // vMin = new Vector2(-Mathf.Cos(minReg),Mathf.Sin(minReg));
         // vSec = new Vector2(-Mathf.Cos(secReg),Mathf.Sin(secReg));
-
-        float seconds = time.Second;
-        if(moveSmoothly)
-            seconds += time.Millisecond / 1000f;
-
-        vSec = SecondsOrMinutesToDirection(seconds);
-        vMin = SecondsOrMinutesToDirection(time.Minute);
-        vHour = HourToDirection (time.Hour);
     }
 
     void DrawTick(Vector2 dir,float length,float thickness)
