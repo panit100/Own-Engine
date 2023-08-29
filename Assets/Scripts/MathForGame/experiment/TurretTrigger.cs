@@ -28,13 +28,18 @@ public class TurretTrigger : MonoBehaviour
     float fovRad => fovDeg * Mathf.Deg2Rad;
     float angThresh => Mathf.Cos(fovRad / 2);
 
+    void SetGizmoMatrix(Matrix4x4 m) => Gizmos.matrix = Handles.matrix = m;
+
+
     void OnDrawGizmos() 
     {
         if(target == null)
             return;
 
         //make gizmos relative to this transform
-        Gizmos.matrix = Handles.matrix = transform.localToWorldMatrix;
+        SetGizmoMatrix(transform.localToWorldMatrix);
+        Gizmos.color = Handles.color = Contains(target.position) ? Color.red:Color.white;
+
 
         switch(Mode)
         {
@@ -52,8 +57,6 @@ public class TurretTrigger : MonoBehaviour
 
     void DrawCylindricalSector()
     {
-        Gizmos.color = Handles.color = Contains(target.position) ? Color.red:Color.white;
-
         Vector3 top = new Vector3(0,height,0);
 
         float p = angThresh;
@@ -88,40 +91,88 @@ public class TurretTrigger : MonoBehaviour
         Gizmos.DrawLine(outVLeft,top+outVLeft);
     }
 
-    void DrawSphericalSector()
+    void DrawSpherical()
     {
-        Gizmos.color = Handles.color = Contains(target.position) ? Color.red:Color.white;
-        
         Gizmos.DrawWireSphere(default,innerRadius);
         Gizmos.DrawWireSphere(default,outerRadius);
     }
 
-    void DrawSpherical()
+    void DrawSphericalSector()
     {
-        Gizmos.color = Handles.color = Contains(target.position) ? Color.red:Color.white;
-
         float p = angThresh;
         float x = Mathf.Sqrt(1 - p * p);
 
-        Vector3 vLeft = new Vector3(-x,0,p) * outerRadius;
-        Vector3 vRight = new Vector3(x,0,p) * outerRadius;
-        Vector3 vUp = new Vector3(0,x,p) * outerRadius;
-        Vector3 vDown = new Vector3(0,-x,p) * outerRadius;
+        Vector3 vLeftDir = new Vector3(-x,0,p);
+        Vector3 vRightDir = new Vector3(x,0,p);
 
-        float innerRadius = vRight.x;
+        Vector3 outVLeft = vLeftDir * outerRadius;
+        Vector3 outVRight = vRightDir * outerRadius;
 
-        Vector3 innerCenter =  new Vector3(0,0,vRight.z) + Vector3.zero;
+        Vector3 inVLeft = vLeftDir * innerRadius;
+        Vector3 inVRight = vRightDir * innerRadius;
 
-        Handles.DrawWireDisc(innerCenter,transform.forward,innerRadius);
+        float innerCircleRadius = outVRight.x;
+        float outerCircleRadius = inVRight.x;
 
-        Gizmos.DrawLine(default ,vLeft);
-        Gizmos.DrawLine(default ,vRight);
-        Gizmos.DrawLine(default ,vUp);
-        Gizmos.DrawLine(default ,vDown);
+        Vector3 innerCircleCenter =  new Vector3(0,0,outVRight.z) + Vector3.zero;
+        Vector3 outerCircleCenter =  new Vector3(0,0,inVRight.z) + Vector3.zero;
 
-        Gizmos.DrawRay(default,Vector3.forward * outerRadius);
-        Gizmos.DrawWireSphere(default,outerRadius);
+        Handles.DrawWireDisc(innerCircleCenter,Vector3.forward,innerCircleRadius);
+        Handles.DrawWireDisc(outerCircleCenter,Vector3.forward,outerCircleRadius);
 
+        DrawFlatWedge();
+        Matrix4x4 prevMtx = Gizmos.matrix;
+
+        //temporaily modify the matrix
+        //draw the rotated gizmo
+        SetGizmoMatrix(Gizmos.matrix * Matrix4x4.TRS(default,Quaternion.Euler(0,0,90),Vector3.one));
+        DrawFlatWedge();
+        SetGizmoMatrix(prevMtx);
+
+
+        void DrawFlatWedge()
+        {
+            Handles.DrawWireArc(default,Vector3.up,outVLeft,fovDeg,outerRadius);
+            Handles.DrawWireArc(default,Vector3.up,inVLeft,fovDeg,innerRadius);
+            Gizmos.DrawLine(inVRight,outVRight);
+            Gizmos.DrawLine(inVLeft,outVLeft);
+        }
+
+        // float p = angThresh;
+        // float x = Mathf.Sqrt(1 - p * p);
+
+        // Vector3 vLeftDir = new Vector3(-x,0,p);
+        // Vector3 vRightDir = new Vector3(x,0,p);
+
+        // Vector3 outVLeft = vLeftDir * outerRadius;
+        // Vector3 outVRight = vRightDir * outerRadius;
+        // Vector3 outVUp = new Vector3(0,x,p) * outerRadius;
+        // Vector3 outVDown = new Vector3(0,-x,p) * outerRadius;
+
+        // Vector3 inVLeft = vLeftDir * innerRadius;
+        // Vector3 inVRight = vRightDir * innerRadius;
+        // Vector3 inVUp = new Vector3(0,x,p) * innerRadius;
+        // Vector3 inVDown = new Vector3(0,-x,p) * innerRadius;
+        
+
+        // float innerCircleRadius = outVRight.x;
+        // float outerCircleRadius = inVRight.x;
+
+        // Vector3 innerCircleCenter =  new Vector3(0,0,outVRight.z) + Vector3.zero;
+        // Vector3 outerCircleCenter =  new Vector3(0,0,inVRight.z) + Vector3.zero;
+
+        // Handles.DrawWireDisc(innerCircleCenter,Vector3.forward,innerCircleRadius);
+        // Handles.DrawWireDisc(outerCircleCenter,Vector3.forward,outerCircleRadius);
+
+        // Handles.DrawWireArc(default,Vector3.up,outVLeft,fovDeg,outerRadius);
+        // Handles.DrawWireArc(default,Vector3.up,inVLeft,fovDeg,innerRadius);
+        // Gizmos.DrawLine(inVRight,outVRight);
+        // Gizmos.DrawLine(inVLeft,outVLeft);
+
+        // Handles.DrawWireArc(default,Vector3.right,outVUp,fovDeg,outerRadius);
+        // Handles.DrawWireArc(default,Vector3.right,inVUp,fovDeg,innerRadius);
+        // Gizmos.DrawLine(inVUp,outVUp);
+        // Gizmos.DrawLine(inVDown,outVDown);
     }
 
     public bool Contains(Vector3 position)
@@ -170,18 +221,18 @@ public class TurretTrigger : MonoBehaviour
 
         //cylindrical radial
 
-        if(flatDistance > outerRadius || flatDistance < 0 || flatDistance < innerRadius)
+        if(flatDistance > outerRadius || flatDistance < innerRadius)
             return false; // outside the cylinder
 
         return true;    
     }
 
-    public bool SphericalSectorContains(Vector3 position)
+    public bool SphericalContains(Vector3 position)
     {
         Vector3 vecToTargetWorld = position - transform.position;   
         Vector3 vecToTarget = transform.InverseTransformVector(vecToTargetWorld);
 
-        float disToTarget = vecToTarget.magnitude;
+        float disToTarget = vecToTarget.magnitude; //Vector3.Distance(transform.position,position)
         
         if(disToTarget > outerRadius || disToTarget < innerRadius)
             return false;
@@ -189,21 +240,38 @@ public class TurretTrigger : MonoBehaviour
         return true;
     }
 
-    public bool SphericalContains(Vector3 position)
+    public bool SphericalSectorContains(Vector3 position)
     {
-        Vector3 vecToTargetWorld = (position - transform.position);
-        Vector3 vecToTarget = transform.InverseTransformVector(vecToTargetWorld);
-
-        float disToTarget = vecToTarget.magnitude;
-        Vector3 dirToTarget = vecToTarget / disToTarget;
-
-        if(dirToTarget.z < angThresh && dirToTarget.x < angThresh)
+        if(!SphericalContains(position))
             return false;
 
-        if(disToTarget > outerRadius)
-            return false;   
+        Vector3 dirToTarget = (position - transform.position).normalized;
+        float projAngle = Vector3.Dot(transform.forward, dirToTarget);
+        return projAngle > angThresh;
 
-        return true;
+
+        // float angleRad = AngleBetweenNormalizedVectors(transform.forward, dirToTarget); 
+        // return angleRad < fovRad/2;
+
+
+        // Vector3 vecToTargetWorld = (position - transform.position);
+        // Vector3 vecToTarget = transform.InverseTransformVector(vecToTargetWorld);
+
+        // float disToTarget = vecToTarget.magnitude;
+        // Vector3 dirToTarget = vecToTarget / disToTarget;
+
+        // if(dirToTarget.z < angThresh && dirToTarget.x < angThresh)
+        //     return false;
+
+        // if(disToTarget > outerRadius)
+        //     return false;   
+
+        // return true;
+    }
+
+    static float AngleBetweenNormalizedVectors(Vector3 a, Vector3 b)
+    {
+        return Mathf.Clamp(Mathf.Acos(Vector3.Dot(a, b)),-1,1);
     }
     
 #region A
