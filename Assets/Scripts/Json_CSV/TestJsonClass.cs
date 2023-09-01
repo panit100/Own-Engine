@@ -1,19 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using Newtonsoft.Json;
 
 public class TestJsonClass : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public TestClass testClass;
     void Start()
     {
-        
+        testClass = testClass.LoadData();
     }
 
-    // Update is called once per frame
-    void Update()
+}
+
+[Serializable]
+public class TestClass
+{
+    public string text = "Test Json";
+    public int num = 10;
+    public float num2 = 55.45f;
+    public bool toggle = false;
+
+    public void SaveData()
     {
-        
+        JsonConverter.SaveJSONAsObject("testJson.json",this,true);
+    }
+
+    public TestClass LoadData()
+    {
+        return JsonConverter.LoadJSONAsObject<TestClass>("testJson.json");
     }
 }
