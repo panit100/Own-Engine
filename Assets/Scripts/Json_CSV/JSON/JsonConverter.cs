@@ -10,22 +10,33 @@ public class JsonConverter
     const string PROJECTFOLDER = "OwnEngine";
 
 #region SaveJSON
+    /// <summary>
+    /// For save class data to json file. Can select to save it in StreamingAssets folder or not.
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <param name="saveObject"></param>
+    /// <param name="streaming"></param>
     public static void SaveJSONAsObject(string fileName,object saveObject,bool streaming = false)
     {
         string data = JsonConvert.SerializeObject(saveObject,Formatting.Indented);
 
         if(streaming)
-            CreateStreamingJSON(fileName,data);
+            CreateStreamingJSON(fileName,data); // if save it to StreamingAssets folder. it should be game data
         else
-            CreateUserJSON(fileName,data);  
+            CreateUserJSON(fileName,data);  // if not. it should be a user data. ex. save game data.
     }   
     
+    /// <summary>
+    /// Create a json file in StreamingAssets folder.
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <param name="data"></param>
     static void CreateStreamingJSON(string fileName,string data)
     {
         if(Application.isEditor)
         {
             StreamWriter writer;
-            FileInfo t = new FileInfo(Application.streamingAssetsPath + "/" + fileName);
+            FileInfo t = new FileInfo($"{Application.streamingAssetsPath}/Data/JSONData/{fileName}.json");
             if(!t.Exists)
                 t.Directory.Create();
             else
@@ -37,12 +48,17 @@ public class JsonConverter
         }
     }
 
+    /// <summary>
+    /// Create a json file which is a save game data in user computer. but not in StreamingAssets folder.
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <param name="data"></param>
     static void CreateUserJSON(string fileName,string data)
     {
         if(Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.OSXPlayer)
         {
             StreamWriter writer;
-            FileInfo t = new FileInfo(Application.persistentDataPath + "/" + PROJECTFOLDER + "/" + fileName);
+            FileInfo t = new FileInfo(Application.persistentDataPath + "/" + PROJECTFOLDER + "/" + fileName + ".json");
             
             if(!t.Exists)
                 t.Directory.Create();
@@ -56,7 +72,7 @@ public class JsonConverter
         else if(Application.isEditor)
         {
             StreamWriter writer;
-            FileInfo t = new FileInfo(Application.dataPath + "/../../Documents/" + PROJECTFOLDER + "/" + fileName);
+            FileInfo t = new FileInfo(Application.dataPath + "/../../Documents/" + PROJECTFOLDER + "/" + fileName + ".json");
             
             if(!t.Exists) 
                 t.Directory.Create();
@@ -69,18 +85,22 @@ public class JsonConverter
         }
     }
 
+    /// <summary>
+    /// For Delete user data in user computer. ex. Save game
+    /// </summary>
+    /// <param name="fileName"></param>
     static void DeleteUserJSON(string fileName)
     {
         if(Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.OSXPlayer)
         {
-            FileInfo t = new FileInfo(Application.persistentDataPath + "/" + PROJECTFOLDER + "/" + fileName);
+            FileInfo t = new FileInfo(Application.persistentDataPath + "/" + PROJECTFOLDER + "/" + fileName + ".json");
             
             if(t.Exists)
                 t.Delete();
         }
         else if(Application.isEditor)
         {
-            FileInfo t = new FileInfo(Application.dataPath + "/../../Documents/" + PROJECTFOLDER + "/" + fileName);
+            FileInfo t = new FileInfo(Application.dataPath + "/../../Documents/" + PROJECTFOLDER + "/" + fileName + ".json");
             
             if(t.Exists)
                 t.Delete();
@@ -89,6 +109,12 @@ public class JsonConverter
 #endregion
 
 #region LoadJSON
+    /// <summary>
+    /// Load json file as object and that file should in StreamingAssets folder.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
     public static T LoadJSONAsObject<T>(string fileName)
     {
         var data = LoadTextAppData(fileName);
@@ -111,8 +137,14 @@ public class JsonConverter
         else
             return default(T);
     }
-
-    public static T LoadJSONAsObject<T>(string fileName,Newtonsoft.Json.JsonConverter converter)
+    
+    /// <summary>
+    /// Load json file as object and that file should in StreamingAssets folder. But you can select JsonConverter
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    public static T LoadJSONAsObject<T>(string fileName,Newtonsoft.Json.JsonConverter converter) 
     {
         var data = LoadTextAppData(fileName);
 
@@ -132,9 +164,16 @@ public class JsonConverter
             return default(T);
     }
 
+    /// <summary>
+    /// For Load user data into Object.
+    /// Ex. Save game data.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
     public static T LoadUserJSONAsObject<T>(string fileName)
     {
-        var data = LoadTextAppData(fileName);
+        var data = LoadTextUserData(fileName);
 
         if(data != string.Empty)
         {
@@ -155,13 +194,20 @@ public class JsonConverter
             return default(T);
     }
 
+    /// <summary>
+    /// For Load user data into Text.
+    /// Ex. Save game data.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
     static string LoadTextUserData(string fileName)
     {
         string filePath;
 
         if(Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.OSXPlayer)
         {
-            filePath = Application.persistentDataPath + PROJECTFOLDER + fileName;
+            filePath = Application.persistentDataPath + "/" + PROJECTFOLDER + "/" + fileName + ".json";
 
             if(File.Exists(filePath))
             {
@@ -177,7 +223,7 @@ public class JsonConverter
         }
         else if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor)
         {
-            filePath = Application.dataPath + "/../../Documents/" + PROJECTFOLDER +"/" + fileName; //Folder to save  use data when play in editor
+            filePath = Application.dataPath + "/../../Documents/" + PROJECTFOLDER +"/" + fileName + ".json"; //Folder to save  use data when play in editor
 
             if(File.Exists(filePath))
             {
@@ -195,13 +241,20 @@ public class JsonConverter
         return "";
     }
 
+    /// <summary>
+    /// For Load game data into Text.
+    /// Ex. Item data in game.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
     static string LoadTextAppData(string fileName)
     {
         string filePath;
 
         if(Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.OSXPlayer)
         {
-            filePath = $"{Application.streamingAssetsPath}/{fileName}";
+            filePath = $"{Application.streamingAssetsPath}/{fileName}.json";
             
             if(File.Exists(filePath))
             {
@@ -217,7 +270,7 @@ public class JsonConverter
         }
         else if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor)
         {
-            filePath = $"{Application.streamingAssetsPath}/{fileName}";
+            filePath = $"{Application.streamingAssetsPath}/Data/JSONData/{fileName}.json";
             
             if(File.Exists(filePath))
             {
