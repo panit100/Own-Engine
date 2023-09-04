@@ -52,5 +52,6 @@
         "temp/":true,
         "Temp/":true
     },
-    "dotnet.defaultSolution": "Own Engine.sln"
+    "dotnet.defaultSolution": "Own Engine.sln",
+    "diffEditor.codeLens": true
 }
