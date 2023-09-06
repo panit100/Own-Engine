@@ -22,15 +22,35 @@ namespace CuteEngine.Utilities.Dialogue
         {
             //TODO Update Character Image and Name
             
-            mainCharacterName.text = dialogueData.CharacterName;
-
-            mainCharacterImage.sprite = dialogueData.CharacterSprite;
-            mainCharacterImage.SetNativeSize();
+            if(dialogueData.IsMainCharacter)
+            {
+                SetMainCharacterDialogue(dialogueData);
+            }
+            else
+            {
+                SetSubCharacterDialogue(dialogueData);
+            }
         }
 
         public void UpdateDialogueText(string text)
         {
             dialogueText.text = text;
+        }
+
+        void SetMainCharacterDialogue(DialogueData dialogueData)
+        {
+            mainCharacterName.text = dialogueData.CharacterName;
+
+            mainCharacterImage.sprite = dialogueData.GetCharacterSprite();
+            mainCharacterImage.SetNativeSize();
+        }
+
+        void SetSubCharacterDialogue(DialogueData dialogueData)
+        {
+            subCharacterName.text = dialogueData.CharacterName;
+
+            subCharacterImage.sprite = dialogueData.GetCharacterSprite();
+            subCharacterImage.SetNativeSize();
         }
     }
 }

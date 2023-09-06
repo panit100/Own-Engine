@@ -1,0 +1,8 @@
+ID,CharacterName,characterImg,DialogueText,NextDialogueID,IsMainCharacter
+string,string,string,string,string,bool
+test_0,Cute,,Hi!,test_1,TRUE
+test_1,Jaja,,Hello!,test_2,FALSE
+test_2,Cute,,How r u?,test_3,TRUE
+test_3,Jaja,,I'm ok. but today i'm feeling sad.,test_4,FALSE
+test_4,Cute,,Come on. Let's take a huge hug.,test_5,TRUE
+test_5,Jaja,,<3 <3 <3 Love you so much,,FALSE
