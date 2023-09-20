@@ -522,31 +522,6 @@ MonoBehaviour:
   dialogueCanvasPrefab: {fileID: 1943846716572604100, guid: 60ee8074dfbda1b4d8757b5d63d9739d,
     type: 3}
   nextDialogueID: 
-  DialogueDataList:
-  - ID: 0
-    CharacterName: Cute
-    CharacterSprite: 
-    DialogueText: Hi!
-    NextDialogueID: 1
-    IsMainCharacter: 1
-  - ID: 1
-    CharacterName: Jaja
-    CharacterSprite: 
-    DialogueText: Hello!
-    NextDialogueID: 2
-    IsMainCharacter: 0
-  - ID: 2
-    CharacterName: Cute
-    CharacterSprite: 
-    DialogueText: How r u?
-    NextDialogueID: 3
-    IsMainCharacter: 1
-  - ID: 3
-    CharacterName: Jaja
-    CharacterSprite: 
-    DialogueText: I'm ok. but today i'm feeling sad.
-    NextDialogueID: 
-    IsMainCharacter: 0
   textSpeed: 0.1
 --- !u!4 &1453722758
 Transform:
