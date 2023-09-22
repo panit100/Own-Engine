@@ -121,23 +121,7 @@ namespace CuteEngine.Utilities.Converter
         {
             var data = LoadTextAppData(fileName);
 
-            if(data != string.Empty)
-            {
-                try 
-                {
-                    return (T)JsonConvert.DeserializeObject<T>(data, new JsonSerializerSettings
-                        {
-                            TypeNameHandling = TypeNameHandling.Auto,
-                        });
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError(e.Message);
-                    return default(T);
-                }
-            }
-            else
-                return default(T);
+            return DeserializeTextToObject<T>(data);
         }
         
         /// <summary>
@@ -150,20 +134,7 @@ namespace CuteEngine.Utilities.Converter
         {
             var data = LoadTextAppData(fileName);
 
-            if(data != string.Empty)
-            {
-                try 
-                {
-                    return (T)JsonConvert.DeserializeObject<T>(data,converter);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError(e.Message);
-                    return default(T);
-                }
-            }
-            else
-                return default(T);
+            return DeserializeTextToObject<T>(data,converter);
         }
 
         /// <summary>
@@ -177,23 +148,10 @@ namespace CuteEngine.Utilities.Converter
         {
             var data = LoadTextUserData(fileName);
 
-            if(data != string.Empty)
-            {
-                try 
-                {
-                    return (T)JsonConvert.DeserializeObject<T>(data, new JsonSerializerSettings
-                        {
-                            TypeNameHandling = TypeNameHandling.Auto,
-                        });
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError(e.Message);
-                    return default(T);
-                }
-            }
-            else
-                return default(T);
+            return LoadUserJSONAsObject<T>(data, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto,
+                    });
         }
 
         /// <summary>
@@ -288,6 +246,66 @@ namespace CuteEngine.Utilities.Converter
             }
             
             return "";
+        }
+
+        public static T DeserializeTextToObject<T>(string data)
+        {
+            if(data != string.Empty)
+            {
+                try 
+                {
+                    return (T)JsonConvert.DeserializeObject<T>(data, new JsonSerializerSettings
+                        {
+                            TypeNameHandling = TypeNameHandling.Auto,
+                        });
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e.Message);
+                    return default(T);
+                }
+            }
+            else
+                return default(T);
+        }
+
+        public static T DeserializeTextToObject<T>(string data,Newtonsoft.Json.JsonConverter converter) 
+        {
+            if(data != string.Empty)
+            {
+                try 
+                {
+                    return (T)JsonConvert.DeserializeObject<T>(data,converter);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e.Message);
+                    return default(T);
+                }
+            }
+            else
+                return default(T);
+        }
+
+        public static T LoadUserJSONAsObject<T>(string data,JsonSerializerSettings settings)
+        {
+            if(data != string.Empty)
+            {
+                try 
+                {
+                    return (T)JsonConvert.DeserializeObject<T>(data, new JsonSerializerSettings
+                        {
+                            TypeNameHandling = TypeNameHandling.Auto,
+                        });
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e.Message);
+                    return default(T);
+                }
+            }
+            else
+                return default(T);
         }
     #endregion
     }
