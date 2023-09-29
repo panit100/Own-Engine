@@ -329,6 +329,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86169f4c13bcd784b9e605dc5360c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 65166b7c9d4b1944263257b0
+  apiClass:
+    name: 
+    category: 
+    price: 0
+    tags: []
 --- !u!4 &1206946733
 Transform:
   m_ObjectHideFlags: 0

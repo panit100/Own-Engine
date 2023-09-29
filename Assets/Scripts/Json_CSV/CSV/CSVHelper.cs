@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace CuteEngine.Utilities.Converter
 {
-    public class CSVConverter
+    public class CSVHelper
     {
         /// <summary>
         /// Variable in class <T> must same as in CSV file. Parameter in CSV file and class must order in same position.
@@ -188,7 +188,7 @@ namespace CuteEngine.Utilities.Converter
         /// <param name="exportObject"></param>
         static void ExportCSVToJSON(string fileName,object exportObject)
         {
-            JsonConverter.SaveJSONAsObject(fileName, exportObject,true);
+            JsonHelper.SaveJSONAsObject(fileName, exportObject,true);
         }
     }
 }
