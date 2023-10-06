@@ -329,12 +329,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86169f4c13bcd784b9e605dc5360c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 65166b7c9d4b1944263257b0
+  ID: 578f6fa2df35c7fbdbaed8c5
   apiClass:
-    name: 
-    category: 
-    price: 0
-    tags: []
+    recrd: 
+    vess: 
+    feature: 
+    chart: 
+    latdec: 0
+    londec: 0
+    gp_quality: 
+    depth: 0
+    sounding_type: 
+    history: 
+    quasou: 
+    watlev: 
+    array: 0
+  apiClassArray: []
 --- !u!4 &1206946733
 Transform:
   m_ObjectHideFlags: 0

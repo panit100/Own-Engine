@@ -51,13 +51,13 @@ namespace CuteEngine.Utilities.Networking
         /// <param name="callBack"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static IEnumerator MakeGetRequest(string url,Action<string> getData = null,string id = "")
+        public static IEnumerator MakeGetRequest(string url,Action<string> getData = null,string id = "",HeaderSetting[] headerSettings = null)
         {
             string _url = url;
             if(id != string.Empty)
                 _url += id;
 
-            var request = CreateRequest(_url,RequestType.GET);
+            var request = CreateRequest(_url,RequestType.GET,headerSettings);
             yield return request.SendWebRequest();
             getData(request.downloadHandler.text);
 
@@ -65,9 +65,9 @@ namespace CuteEngine.Utilities.Networking
             Debug.Log($"Get Data : {url}");
         }
 
-        public static IEnumerator MakeGetRequestByID(string url,Action<string> getData)
+        public static IEnumerator MakeGetRequestByID(string url,Action<string> getData,HeaderSetting[] headerSettings = null)
         {
-            var request = CreateRequest(url,RequestType.GET);
+            var request = CreateRequest(url,RequestType.GET,headerSettings);
             yield return request.SendWebRequest();
             getData(request.downloadHandler.text);
 
@@ -75,19 +75,25 @@ namespace CuteEngine.Utilities.Networking
             Debug.Log($"Get Data : {url}");
         }
 
-        public static IEnumerator MakePostRequest(string url,object data)
+        public static IEnumerator MakePostRequest(string url,object data,Action<string> getData = null)
         {
             var request = CreateRequest(url,RequestType.POST,null,data);
             yield return request.SendWebRequest();
+
+            if(getData != null)
+                getData(request.downloadHandler.text);
 
             request.Dispose();
             Debug.Log($"Post Data : {url}");
         }
 
-        public static IEnumerator MakePutRequest(string url,object data,string id = "")
+        public static IEnumerator MakePutRequest(string url,object data,string id = "",Action<string> getData = null)
         {
             var request = CreateRequest(url+id,RequestType.PUT,null,data);
             yield return request.SendWebRequest();
+
+            if(getData != null)
+                getData(request.downloadHandler.text);
 
             request.Dispose();
             Debug.Log($"Post Data : {url}");

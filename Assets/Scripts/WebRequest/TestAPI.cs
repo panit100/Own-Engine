@@ -12,7 +12,7 @@ using Unity.VisualScripting;
 
 public class TestAPI : MonoBehaviour
 {
-    static string url = "http://localhost:3000";
+    static string url = "http://localhost:4001";
     
     static string GetData = "/GetData/";
     static string AddOneData = "/AddOneData/"; //Use ID
@@ -23,7 +23,14 @@ public class TestAPI : MonoBehaviour
     string data;
 
     public string ID ="";
+    public string email ="";
+    public string password ="";
 
+    
+    [ContextMenuItem("LoginRequest","LoginRequest")]
+    [ContextMenuItem("TestLoginRequestData","TestLoginRequestData")]
+    public UserClass userClass;
+    
     [ContextMenuItem("GetAllDataRequest","InvokeGetAllDataRequest")]
     [ContextMenuItem("GetDataByIDRequest","InvokeGetDataByIDRequest")]
     [ContextMenuItem("PostDataRequest","PostDataRequest")]
@@ -33,8 +40,8 @@ public class TestAPI : MonoBehaviour
     [ContextMenuItem("TestGetDataByIDRequest","TestGetDataByIDRequest")]
     public APIClass apiClass;
     public APIClass[] apiClassArray;
-
-    async void InvokeGetAllDataRequest()
+    
+    void InvokeGetAllDataRequest()
     {
         GetDataRequest();
     }
@@ -56,7 +63,7 @@ public class TestAPI : MonoBehaviour
 
     void InvokePutDataRequest()
     {
-        PutDataRequest(ID);
+        // PutDataRequest(ID);
     }
 
     void InvokeDeleteDataRequest()
@@ -66,23 +73,23 @@ public class TestAPI : MonoBehaviour
 
     void GetDataRequest(string id = null)
     {
-        StartCoroutine(APIHelper.MakeGetRequest(url+GetData,SetData,id));
+        StartCoroutine(APIHelper.MakeGetRequest(url+GetData,SetData,id,new HeaderSetting[] {new HeaderSetting("x-access-token",userClass.token)}));
     }
 
-    void PostDataRequest()
-    {
-        List<string> test = new List<string>(){"a","a"};
+    // void PostDataRequest()
+    // {
+    //     List<string> test = new List<string>(){"a","a"};
 
-        APIClass _apiClass = new APIClass("Panit","Student",5,test);
+    //     APIClass _apiClass = new APIClass("Panit","Student",5,test);
 
-        StartCoroutine(APIHelper.MakePostRequest(url+AddOneData,_apiClass));
-    }
+    //     StartCoroutine(APIHelper.MakePostRequest(url+AddOneData,_apiClass));
+    // }
 
-    void PutDataRequest(string id = null)
-    {
-        APIClass _apiClass = new APIClass("Suebsakuntong","Car",null,null);
-        StartCoroutine(APIHelper.MakePutRequest(url+UpdateData,_apiClass,id));
-    }
+    // void PutDataRequest(string id = null)
+    // {
+    //     APIClass _apiClass = new APIClass("Suebsakuntong","Car",null,null);
+    //     StartCoroutine(APIHelper.MakePutRequest(url+UpdateData,_apiClass,id));
+    // }
 
     void DeleteDataRequest(string id = null)
     {
@@ -92,22 +99,49 @@ public class TestAPI : MonoBehaviour
     void SetData(string _data)
     {
         data = _data;
+        print(data);
+    }
+
+    void LoginRequest()
+    {
+        LoginData loginData = new LoginData(email,password);
+
+        StartCoroutine(APIHelper.MakePostRequest(url+"/login",loginData,SetData));
+    }
+
+    void TestLoginRequestData()
+    {
+        userClass = JsonHelper.DeserializeTextToObject<UserClass>(data);
     }
 }
 
 [Serializable]
 public class APIClass
 {
-    public string name;
-    public string category;
-    public float? price;
-    public List<string> tags;
+    public int product_id;
+    public string product_name;
+    public int product_price;
+}
 
-    public APIClass(string _name,string _category,float? _price,List<string> _tag)
+
+[Serializable]
+public class UserClass
+{
+    public string first_name;
+    public string last_name;
+    public string email;
+    public string password;
+    public string token;
+}
+
+public class LoginData
+{
+    public string email;
+    public string password;
+
+    public LoginData(string _email,string _password)
     {
-        name = _name;
-        category = _category;
-        price = _price;
-        tags = _tag;
+        email = _email;
+        password = _password;
     }
 }
