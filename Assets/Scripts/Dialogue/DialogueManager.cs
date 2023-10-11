@@ -288,14 +288,14 @@ namespace CuteEngine.Utilities.Dialogue
 
         void LoadDialogueFromJSON(string dialogueFile)
         {
-            DialogueData data = JsonConverter.LoadJSONAsObject<DialogueData>(dialogueFile);
+            DialogueData data = JsonHelper.LoadJSONAsObject<DialogueData>(dialogueFile);
 
             dialogueDataDictionary.Add(data.ID,data);
         }
 
         void LoadDialogueFromCSV(string dialogueFile)
         {
-            DialogueData[] dialogueDatas = CSVConverter.LoadCSVAsObject<DialogueData>(dialogueFile);
+            DialogueData[] dialogueDatas = CSVHelper.LoadCSVAsObject<DialogueData>(dialogueFile);
 
             foreach(var data in dialogueDatas)
             {
