@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CuteEngine.Utilities.Converter;
 using Unity.VisualScripting;
 using UnityEngine;
 using CuteEngine.Utilities.Converter;
@@ -20,11 +21,11 @@ public class TestClass
 
     public void SaveData(string fileName)
     {
-        JsonConverter.SaveJSONAsObject(fileName,this,true);
+        JsonHelper.SaveJSONAsObject(fileName,this,true);
     }
 
     public TestClass LoadData(string fileName)
     {
-        return JsonConverter.LoadJSONAsObject<TestClass>(fileName);
+        return JsonHelper.LoadJSONAsObject<TestClass>(fileName);
     }
 }
