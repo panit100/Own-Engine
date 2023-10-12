@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        projectPath:
+          - .
     steps:
       - uses: actions/checkout@v2
         with:
@@ -16,10 +19,10 @@ jobs:
 
       - uses: actions/cache@v3
         with:
-          path: path/to/your/project/Library
-          key: Library-Own-Engine-StandaloneWindows64
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}
           restore-keys: |
-            Library-Own-Engine
+            Library-
 
       - name: Run Test
         uses: game-ci/unity-test-runner@v3
@@ -29,7 +32,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
-          projectPath: path/to/your/project
+          projectPath: ${{ matrix.projectPath }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/upload-artifact@v2
