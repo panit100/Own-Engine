@@ -1,4 +1,4 @@
-name: Build project
+name: Test project
 
 on: [push]
 
@@ -6,27 +6,34 @@ jobs:
   testAllModes:
     name: Run Tests
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - Own-Engine
     steps:
-
       - uses: actions/checkout@v2
         with:
           lfs: true
 
       - uses: actions/cache@v3
         with:
-          path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: Library-
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}
+          restore-keys: |
+            Library-
 
       - name: Run Test
         uses: game-ci/unity-test-runner@v3
+        id: tests
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
+          projectPath: ${{ matrix.projectPath }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - uses: actions/upload-artifact@v2
         if: always()
         with:
