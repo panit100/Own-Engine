@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         projectPath:
-          - Own Engine
+          - Own-Engine/blob/feature/ci-cd
     steps:
       - uses: actions/checkout@v2
         with:
