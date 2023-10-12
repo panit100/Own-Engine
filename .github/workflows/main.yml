@@ -90,6 +90,7 @@ jobs:
           allowDirtyBuild: true
           targetPlatform: StandaloneWindows64
           customImage: 'unityci/editor:2020.1.14f1-base-0'
+          projectPath: ${{ matrix.projectPath }}
 
       - uses: actions/upload-artifact@v2
         with:
