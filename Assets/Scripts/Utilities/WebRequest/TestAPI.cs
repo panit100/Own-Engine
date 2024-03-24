@@ -6,113 +6,113 @@ using UnityEngine.Networking;
 using CuteEngine;
 using CuteEngine.Utilities.Converter;
 using System;
-using Mono.Cecil.Cil;
+// using Mono.Cecil.Cil;
 using CuteEngine.Utilities.Networking;
 using Unity.VisualScripting;
 
 public class TestAPI : MonoBehaviour
 {
-    static string url = "http://localhost:4001";
+//     static string url = "http://localhost:4001";
     
-    static string GetData = "/GetData/";
-    static string AddOneData = "/AddOneData/"; //Use ID
-    static string AddManyData = "/AddManyData/";
-    static string UpdateData = "/UpdateData/"; //Use ID
-    static string DeleteData = "/DeleteData/"; //Use ID
+//     static string GetData = "/GetData/";
+//     static string AddOneData = "/AddOneData/"; //Use ID
+//     static string AddManyData = "/AddManyData/";
+//     static string UpdateData = "/UpdateData/"; //Use ID
+//     static string DeleteData = "/DeleteData/"; //Use ID
 
-    string data;
+//     string data;
 
-    public string ID ="";
-    public string email ="";
-    public string password ="";
+//     public string ID ="";
+//     public string email ="";
+//     public string password ="";
 
     
-    [ContextMenuItem("LoginRequest","LoginRequest")]
-    [ContextMenuItem("TestLoginRequestData","TestLoginRequestData")]
-    public UserClass userClass;
+//     [ContextMenuItem("LoginRequest","LoginRequest")]
+//     [ContextMenuItem("TestLoginRequestData","TestLoginRequestData")]
+//     public UserClass userClass;
     
-    [ContextMenuItem("GetAllDataRequest","InvokeGetAllDataRequest")]
-    [ContextMenuItem("GetDataByIDRequest","InvokeGetDataByIDRequest")]
-    [ContextMenuItem("PostDataRequest","PostDataRequest")]
-    [ContextMenuItem("PutDataRequest","InvokePutDataRequest")]
-    [ContextMenuItem("DeleteDataRequest","InvokeDeleteDataRequest")]
-    [ContextMenuItem("TestGetAllDataRequest","TestGetAllDataRequest")]
-    [ContextMenuItem("TestGetDataByIDRequest","TestGetDataByIDRequest")]
-    public APIClass apiClass;
-    public APIClass[] apiClassArray;
+//     [ContextMenuItem("GetAllDataRequest","InvokeGetAllDataRequest")]
+//     [ContextMenuItem("GetDataByIDRequest","InvokeGetDataByIDRequest")]
+//     [ContextMenuItem("PostDataRequest","PostDataRequest")]
+//     [ContextMenuItem("PutDataRequest","InvokePutDataRequest")]
+//     [ContextMenuItem("DeleteDataRequest","InvokeDeleteDataRequest")]
+//     [ContextMenuItem("TestGetAllDataRequest","TestGetAllDataRequest")]
+//     [ContextMenuItem("TestGetDataByIDRequest","TestGetDataByIDRequest")]
+//     public APIClass apiClass;
+//     public APIClass[] apiClassArray;
     
-    void InvokeGetAllDataRequest()
-    {
-        GetDataRequest();
-    }
+//     void InvokeGetAllDataRequest()
+//     {
+//         GetDataRequest();
+//     }
 
-    void TestGetAllDataRequest()
-    {
-        apiClassArray = JsonHelper.DeserializeTextToObject<APIClass[]>(data);
-    }
-
-    void InvokeGetDataByIDRequest()
-    {
-        GetDataRequest(ID);
-    }
-
-    void TestGetDataByIDRequest()
-    {
-        apiClass = JsonHelper.DeserializeTextToObject<APIClass>(data);
-    }
-
-    void InvokePutDataRequest()
-    {
-        // PutDataRequest(ID);
-    }
-
-    void InvokeDeleteDataRequest()
-    {
-        DeleteDataRequest(ID);
-    }
-
-    void GetDataRequest(string id = null)
-    {
-        StartCoroutine(APIHelper.MakeGetRequest(url+GetData,SetData,id,new HeaderSetting[] {new HeaderSetting("x-access-token",userClass.token)}));
-    }
-
-    // void PostDataRequest()
+    // void TestGetAllDataRequest()
     // {
-    //     List<string> test = new List<string>(){"a","a"};
-
-    //     APIClass _apiClass = new APIClass("Panit","Student",5,test);
-
-    //     StartCoroutine(APIHelper.MakePostRequest(url+AddOneData,_apiClass));
+    //     apiClassArray = JsonHelper.DeserializeTextToObject<APIClass[]>(data);
     // }
 
-    // void PutDataRequest(string id = null)
+    // void InvokeGetDataByIDRequest()
     // {
-    //     APIClass _apiClass = new APIClass("Suebsakuntong","Car",null,null);
-    //     StartCoroutine(APIHelper.MakePutRequest(url+UpdateData,_apiClass,id));
+    //     GetDataRequest(ID);
     // }
 
-    void DeleteDataRequest(string id = null)
-    {
-        StartCoroutine(APIHelper.MakeDeleteRequest(url+DeleteData,id));
-    }
+    // void TestGetDataByIDRequest()
+    // {
+    //     apiClass = JsonHelper.DeserializeTextToObject<APIClass>(data);
+    // }
 
-    void SetData(string _data)
-    {
-        data = _data;
-        print(data);
-    }
+    // void InvokePutDataRequest()
+    // {
+    //     // PutDataRequest(ID);
+    // }
 
-    void LoginRequest()
-    {
-        LoginData loginData = new LoginData(email,password);
+    // void InvokeDeleteDataRequest()
+    // {
+    //     DeleteDataRequest(ID);
+    // }
 
-        StartCoroutine(APIHelper.MakePostRequest(url+"/login",loginData,SetData));
-    }
+    // void GetDataRequest(string id = null)
+    // {
+    //     StartCoroutine(APIHelper.MakeGetRequest(url+GetData,SetData,id,new HeaderSetting[] {new HeaderSetting("x-access-token",userClass.token)}));
+    // }
 
-    void TestLoginRequestData()
-    {
-        userClass = JsonHelper.DeserializeTextToObject<UserClass>(data);
-    }
+    // // void PostDataRequest()
+    // // {
+    // //     List<string> test = new List<string>(){"a","a"};
+
+    // //     APIClass _apiClass = new APIClass("Panit","Student",5,test);
+
+    // //     StartCoroutine(APIHelper.MakePostRequest(url+AddOneData,_apiClass));
+    // // }
+
+    // // void PutDataRequest(string id = null)
+    // // {
+    // //     APIClass _apiClass = new APIClass("Suebsakuntong","Car",null,null);
+    // //     StartCoroutine(APIHelper.MakePutRequest(url+UpdateData,_apiClass,id));
+    // // }
+
+    // void DeleteDataRequest(string id = null)
+    // {
+    //     StartCoroutine(APIHelper.MakeDeleteRequest(url+DeleteData,id));
+    // }
+
+    // void SetData(string _data)
+    // {
+    //     data = _data;
+    //     print(data);
+    // }
+
+    // void LoginRequest()
+    // {
+    //     LoginData loginData = new LoginData(email,password);
+
+    //     StartCoroutine(APIHelper.MakePostRequest(url+"/login",loginData,SetData));
+    // }
+
+    // void TestLoginRequestData()
+    // {
+    //     userClass = JsonHelper.DeserializeTextToObject<UserClass>(data);
+    // }
 }
 
 [Serializable]

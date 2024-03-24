@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using System.IO;
 using UnityEngine.Events;
 
+
 namespace CuteEngine.Utilities.Dialogue
 {
     enum DialogueStatus
@@ -22,9 +23,9 @@ namespace CuteEngine.Utilities.Dialogue
     {
         public DialogueCanvas dialogueCanvasPrefab;
 
-        [ContextMenuItem("OnPlayDialogue","OnPlayDialogue")]
+        [ContextMenuItem("OnPlayDialogue", "OnPlayDialogue")]
         public string nextDialogueID;
-        [Range(0f,1f)]
+        [Range(0f, 1f)]
         public float textSpeed;
 
         DialogueData currentDialogueData = null;
@@ -38,10 +39,10 @@ namespace CuteEngine.Utilities.Dialogue
 
         bool canSkip = true;
 
-        UnityAction startDialogueCallback,endDialogueCallback;
+        UnityAction startDialogueCallback, endDialogueCallback;
 
         protected override void InitAfterAwake()
-        {   
+        {
             LoadDialogueFromCSV("DialogueTest");
 
             AddInputAction();
@@ -70,9 +71,9 @@ namespace CuteEngine.Utilities.Dialogue
         {
             Transform canvas = GameObject.FindGameObjectWithTag("Canvas").transform;
 
-            if(canvas != null)
+            if (canvas != null)
             {
-                dialogueCanvas = Instantiate(dialogueCanvasPrefab,canvas);
+                dialogueCanvas = Instantiate(dialogueCanvasPrefab, canvas);
                 SetActiveDialogueCanvas(false);
             }
             else
@@ -85,21 +86,21 @@ namespace CuteEngine.Utilities.Dialogue
             dialogueCanvas.gameObject.SetActive(active);
         }
 
-        public void StartDialogue(DialogueData dialogueData, bool _canSkip = true,UnityAction _startDialogueCallback = null,UnityAction _endDialogueCallback = null)
+        public void StartDialogue(DialogueData dialogueData, bool _canSkip = true, UnityAction _startDialogueCallback = null, UnityAction _endDialogueCallback = null)
         {
-            if(dialogueCanvas == null)
+            if (dialogueCanvas == null)
             {
                 Debug.LogError("Please create dialogue canvas first.");
                 return;
             }
-            
-            if(dialogueStatus != DialogueStatus.END)
+
+            if (dialogueStatus != DialogueStatus.END)
             {
                 Debug.LogError($"Dialogue {currentDialogueData.ID} is not finish.");
                 return;
             }
 
-            if(currentDialogueData == null)
+            if (currentDialogueData == null)
             {
                 SetActiveDialogueCanvas(true);
 
@@ -119,25 +120,25 @@ namespace CuteEngine.Utilities.Dialogue
             }
             else
             {
-                Debug.LogError($"Dialogue didn't finish yet. {dialogueData.ID} : {dialogueData.DialogueText}" );
+                Debug.LogError($"Dialogue didn't finish yet. {dialogueData.ID} : {dialogueData.DialogueText}");
             }
         }
 
         public void NextDialogue(DialogueData dialogueData)
         {
-            if(dialogueCanvas == null)
+            if (dialogueCanvas == null)
             {
                 Debug.LogError("Dialogue canvas is missing");
                 return;
             }
-            
-            if(dialogueStatus != DialogueStatus.END)
+
+            if (dialogueStatus != DialogueStatus.END)
             {
                 Debug.LogError($"Dialogue {currentDialogueData.ID} is not finish.");
                 return;
             }
 
-            if(currentDialogueData == null)
+            if (currentDialogueData == null)
             {
                 dialogueStatus = DialogueStatus.START;
 
@@ -147,13 +148,13 @@ namespace CuteEngine.Utilities.Dialogue
             }
             else
             {
-                Debug.LogError($"Dialogue didn't finish yet. {dialogueData.ID} : {dialogueData.DialogueText}" );
+                Debug.LogError($"Dialogue didn't finish yet. {dialogueData.ID} : {dialogueData.DialogueText}");
             }
         }
 
         void EndDialogue(DialogueData dialogueData)
         {
-            if(currentDialogueData == dialogueData)
+            if (currentDialogueData == dialogueData)
             {
                 nextDialogueID = dialogueData.NextDialogueID;
                 dialogueStatus = DialogueStatus.END;
@@ -166,7 +167,7 @@ namespace CuteEngine.Utilities.Dialogue
 
         public void SpeedDialogue()
         {
-            if(dialogueStatus == DialogueStatus.TYPING)
+            if (dialogueStatus == DialogueStatus.TYPING)
             {
                 StopCoroutine(displayTextCoroutine);
                 UpdateDialogueText(currentDialogueData.DialogueText);
@@ -176,7 +177,7 @@ namespace CuteEngine.Utilities.Dialogue
 
         public void SkipDialogue()
         {
-            if(!canSkip)
+            if (!canSkip)
                 return;
 
             StopCoroutine(displayTextCoroutine);
@@ -191,13 +192,13 @@ namespace CuteEngine.Utilities.Dialogue
 
         void ContinueDialogue()
         {
-            if(IsDialogueNotEnd())
+            if (IsDialogueNotEnd())
                 return;
 
-            if(IsCurrentDialogueNull())
+            if (IsCurrentDialogueNull())
                 return;
 
-            if(IsHaveNextDialogue())
+            if (IsHaveNextDialogue())
             {
                 currentDialogueData = null;
                 NextDialogue(GetNextDialogue(nextDialogueID));
@@ -213,7 +214,7 @@ namespace CuteEngine.Utilities.Dialogue
 
         bool IsDialogueNotEnd()
         {
-            if(dialogueStatus != DialogueStatus.END)
+            if (dialogueStatus != DialogueStatus.END)
             {
                 Debug.LogWarning("Dialogue didn't finish.");
                 return true;
@@ -224,7 +225,7 @@ namespace CuteEngine.Utilities.Dialogue
 
         bool IsCurrentDialogueNull()
         {
-            if(currentDialogueData == null)
+            if (currentDialogueData == null)
             {
                 Debug.LogError("Don't have next dialogue.");
                 return true;
@@ -235,7 +236,7 @@ namespace CuteEngine.Utilities.Dialogue
 
         bool IsHaveNextDialogue()
         {
-            if(currentDialogueData.NextDialogueID != "")
+            if (currentDialogueData.NextDialogueID != "")
                 return true;
             else
                 return false;
@@ -254,13 +255,13 @@ namespace CuteEngine.Utilities.Dialogue
 
         IEnumerator DisplayText(string dialogueText)
         {
-            
+
             string _dialogueText = "";
             UpdateDialogueText(_dialogueText);
             yield return new WaitForSeconds(textSpeed);
 
             dialogueStatus = DialogueStatus.TYPING;
-            foreach(var n in dialogueText.ToCharArray())
+            foreach (var n in dialogueText.ToCharArray())
             {
                 _dialogueText += n;
                 UpdateDialogueText(_dialogueText);
@@ -288,41 +289,41 @@ namespace CuteEngine.Utilities.Dialogue
 
         void LoadDialogueFromJSON(string dialogueFile)
         {
-            DialogueData data = JsonHelper.LoadJSONAsObject<DialogueData>(dialogueFile);
+            // DialogueData data = JsonHelper.LoadJSONAsObject<DialogueData>(dialogueFile);
 
-            dialogueDataDictionary.Add(data.ID,data);
+            // dialogueDataDictionary.Add(data.ID,data);
         }
 
         void LoadDialogueFromCSV(string dialogueFile)
         {
             DialogueData[] dialogueDatas = CSVHelper.LoadCSVAsObject<DialogueData>(dialogueFile);
 
-            foreach(var data in dialogueDatas)
+            foreach (var data in dialogueDatas)
             {
-                dialogueDataDictionary.Add(data.ID,data);
+                dialogueDataDictionary.Add(data.ID, data);
             }
         }
 
         void RunStartDialogueCallBack()
         {
             startDialogueCallback?.Invoke();
-            startDialogueCallback = null;   
+            startDialogueCallback = null;
         }
 
         void RunEndDialogueCallBack()
         {
             endDialogueCallback?.Invoke();
-            endDialogueCallback = null;   
+            endDialogueCallback = null;
         }
 
-#region  Test function
+        #region  Test function
         void OnPlayDialogue()
         {
-            StartDialogue(dialogueDataDictionary["test_0"],true);
+            StartDialogue(dialogueDataDictionary["test_0"], true);
         }
-#endregion
+        #endregion
 
-        void OnDestroy() 
+        void OnDestroy()
         {
             RemoveInputAction();
         }

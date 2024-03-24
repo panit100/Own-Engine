@@ -19,13 +19,13 @@ public class TestClass
         
     }
 
-    public void SaveData(string fileName)
-    {
-        JsonHelper.SaveJSONAsObject(fileName,this,true);
-    }
+    // public void SaveData(string fileName)
+    // {
+    //     JsonHelper.SaveJSONAsObject(fileName,this,true);
+    // }
 
-    public TestClass LoadData(string fileName)
-    {
-        return JsonHelper.LoadJSONAsObject<TestClass>(fileName);
-    }
+    // public TestClass LoadData(string fileName)
+    // {
+    //     return JsonHelper.LoadJSONAsObject<TestClass>(fileName);
+    // }
 }
