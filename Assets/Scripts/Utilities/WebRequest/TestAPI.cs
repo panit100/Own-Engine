@@ -8,14 +8,11 @@ using CuteEngine.Utilities.Networking;
 
 public class TestAPI : MonoBehaviour
 {
-    TestClass testClass;
+    public TestClass testClass;
 
     private void Start()
     {
         testClass = JsonHelper.LoadJSONAsObject<TestClass>("test");
-
-        Debug.Log(testClass);
-        Debug.Log(testClass.text);
     }
 
     static string url = "http://localhost:4001";
