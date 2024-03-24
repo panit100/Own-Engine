@@ -10,9 +10,10 @@ namespace CuteEngine.Utilities.Dialogue
     {
         public string ID;
         public string CharacterName;
-        public Sprite CharacterSprite;
+        public string CharacterSprite;
         public string DialogueText;
         public string NextDialogueID;
+        public bool IsMainCharacter;
 
         // public bool IsHaveNextDialogue()
         // {
@@ -21,5 +22,10 @@ namespace CuteEngine.Utilities.Dialogue
             
         //     return false;
         // }
+
+        public Sprite GetCharacterSprite()
+        {
+            return null;
+        }
     }
 }
