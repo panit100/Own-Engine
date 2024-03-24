@@ -4,8 +4,6 @@ using UnityEngine;
 using System.IO;
 using System;
 using System.Reflection;
-using System.Linq;
-using System.Diagnostics;
 
 namespace CuteEngine.Utilities.Converter
 {
@@ -17,27 +15,27 @@ namespace CuteEngine.Utilities.Converter
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static T[] LoadCSVAsObject<T>(string fileName) 
+        public static T[] LoadCSVAsObject<T>(string fileName)
         {
             var data = LoadTextCSV(fileName);
-            if(data != string.Empty)
+            if (data != string.Empty)
             {
                 string[] lines = ConvertTextCSVToStringArray(data);
 
-                string[] variableName = lines[0].Split(new[] {','});
-                string[] variableType = lines[1].Split(new[] {','});
+                string[] variableName = lines[0].Split(new[] { ',' });
+                string[] variableType = lines[1].Split(new[] { ',' });
 
-                T[] newObject = new T[lines.Length-2];
+                T[] newObject = new T[lines.Length - 2];
 
-                for(int line = 0; line < lines.Length-2; line++)
+                for (int line = 0; line < lines.Length - 2; line++)
                 {
-                    newObject[line] = SetDataInClassT<T>(variableType,lines[line+2]);
+                    newObject[line] = SetDataInClassT<T>(variableType, lines[line + 2]);
                 }
 
                 return newObject;
             }
 
-            return default(T[]);  
+            return default(T[]);
         }
 
         /// <summary>
@@ -49,10 +47,10 @@ namespace CuteEngine.Utilities.Converter
         {
             string filePath = $"{Application.streamingAssetsPath}/Data/CSVData/{fileName}.csv";
 
-            if(File.Exists(filePath))
+            if (File.Exists(filePath))
             {
                 StreamReader reader = new StreamReader(filePath);
-                if(reader != null)
+                if (reader != null)
                 {
                     string data = reader.ReadToEnd();
                     reader.Close();
@@ -74,7 +72,7 @@ namespace CuteEngine.Utilities.Converter
         /// <returns></returns>
         static string[] ConvertTextCSVToStringArray(string textCSV)
         {
-            string[] lines = textCSV.Split(new[] {'\n'});
+            string[] lines = textCSV.Split(new[] { '\n' });
             return lines;
         }
 
@@ -86,17 +84,17 @@ namespace CuteEngine.Utilities.Converter
         /// <param name="data"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        static T SetDataInClassT<T>(string[] variableType,string data)
+        static T SetDataInClassT<T>(string[] variableType, string data)
         {
-            string[] dataArray = data.Split(new[] {','});
+            string[] dataArray = data.Split(new[] { ',' });
 
             T newT;
 
-            Type type = typeof(T);  
+            Type type = typeof(T);
             ConstructorInfo[] constructorInfos = type.GetConstructors();
 
             // CheckConstructor(constructorInfos[0],variableName);
-            
+
             ConstructorInfo desiredConstructor = constructorInfos[0];
 
             if (desiredConstructor != null)
@@ -113,12 +111,12 @@ namespace CuteEngine.Utilities.Converter
             }
 
             Type objectType = newT.GetType();
-            FieldInfo[] fieldInfos = type.GetFields(BindingFlags.Public| BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo[] fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-            for(int i = 0; i < variableType.Length; i++)
+            for (int i = 0; i < variableType.Length; i++)
             {
 
-                SetValueOfInstance<T>(fieldInfos[i],newT,variableType[i],dataArray[i]);
+                SetValueOfInstance<T>(fieldInfos[i], newT, variableType[i], dataArray[i]);
             }
 
             return newT;
@@ -133,13 +131,13 @@ namespace CuteEngine.Utilities.Converter
         /// <param name="variableType"></param>
         /// <param name="value"></param>
         /// <exception cref="Exception"></exception>
-        static void SetValueOfInstance<T>(FieldInfo fieldInfo,T instance,string variableType,string value) //TODO Add another variable to switch case
+        static void SetValueOfInstance<T>(FieldInfo fieldInfo, T instance, string variableType, string value) //TODO Add another variable to switch case
         {
             object _value = null;
 
             string type = variableType.Trim();
 
-            switch(type.ToLower())
+            switch (type.ToLower())
             {
                 case "string":
                     _value = ConvertToType<string>(value);
@@ -157,7 +155,7 @@ namespace CuteEngine.Utilities.Converter
                     throw new Exception($"Variable Type {variableType} can't convert.");
             }
 
-            fieldInfo.SetValue(instance,_value);
+            fieldInfo.SetValue(instance, _value);
         }
 
         /// <summary>
@@ -186,9 +184,9 @@ namespace CuteEngine.Utilities.Converter
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="exportObject"></param>
-        static void ExportCSVToJSON(string fileName,object exportObject)
+        static void ExportCSVToJSON(string fileName, object exportObject)
         {
-            // JsonHelper.SaveJSONAsObject(fileName, exportObject,true);
+            JsonHelper.SaveJSONAsObject(fileName, exportObject, true);
         }
     }
 }

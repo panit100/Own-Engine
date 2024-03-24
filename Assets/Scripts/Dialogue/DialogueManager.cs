@@ -289,9 +289,9 @@ namespace CuteEngine.Utilities.Dialogue
 
         void LoadDialogueFromJSON(string dialogueFile)
         {
-            // DialogueData data = JsonHelper.LoadJSONAsObject<DialogueData>(dialogueFile);
+            DialogueData data = JsonHelper.LoadJSONAsObject<DialogueData>(dialogueFile);
 
-            // dialogueDataDictionary.Add(data.ID,data);
+            dialogueDataDictionary.Add(data.ID, data);
         }
 
         void LoadDialogueFromCSV(string dialogueFile)
