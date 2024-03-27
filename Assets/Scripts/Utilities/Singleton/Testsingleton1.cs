@@ -7,12 +7,12 @@ public class Testsingleton1 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Testsingleton.Instance.Test();
+        Invoke("Destroy", 3f);
     }
 
     // Update is called once per frame
-    void Update()
+    void Destroy()
     {
-
+        Testsingleton.Instance.Destroy();
     }
 }

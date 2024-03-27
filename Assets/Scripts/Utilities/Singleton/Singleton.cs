@@ -62,5 +62,11 @@ namespace CuteEngine.Utilities
                 }
             }
         }
+
+        public void Destroy()
+        {
+            if (Instance != null)
+                Destroy(gameObject);
+        }
     }
 }
