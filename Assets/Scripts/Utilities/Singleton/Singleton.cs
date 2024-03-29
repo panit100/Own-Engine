@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,41 +7,66 @@ namespace CuteEngine.Utilities
 {
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        private static T instance;        
+        private static T instance;
         public static T Instance
         {
             get
             {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<T>();
+                    if (instance == null)
+                    {
+                        GameObject obj = new GameObject();
+                        obj.name = typeof(T).Name;
+                        instance = obj.AddComponent<T>();
+                    }
+                }
+
                 return instance;
             }
         }
 
-        protected virtual void Awake() 
+        protected virtual void Awake()
         {
             Init();
-
-            InitAfterAwake();
         }
 
         protected abstract void InitAfterAwake();
 
         protected Singleton()
         {
-            instance = this as T;
-
-            if(instance == null)
+            if (instance == null)
             {
-                throw new System.Exception($"There are no Singleton in Scene.");
+                instance = this as T;
+            }
+            else
+            {
+                string message = $"There are 2 or more {typeof(T).Name} in scene. Plase remove it. Or it will auto remove when start game";
+                throw new Exception(message);
             }
         }
 
-        void Init()
+        protected virtual void Init()
         {
-            var objs = FindObjectsOfType(typeof(T)) as T[];
-            if (objs.Length > 1) 
+            if (instance == null)
             {
-                throw new System.Exception($"There are 2 Singleton in Scene. Plase remove one of them.");
+                instance = this as T;
+                InitAfterAwake();
             }
+            else
+            {
+                if (instance != this)
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
+
+        public void Destroy()
+        {
+            if (Instance != null)
+                Destroy(gameObject);
         }
     }
 }
