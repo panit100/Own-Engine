@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using CuteEngine.Utilities;
 using UnityEngine;
 
-public class PersistentSingleton<T> : Singleton<T> where T : Singleton<T>
+namespace CuteEngine.Utilities
 {
-    protected override void InitAfterAwake()
+    public class PersistentSingleton<T> : Singleton<T> where T : Singleton<T>
     {
-
-    }
-
-    protected override void Init()
-    {
-        base.Init();
-        if (Application.isPlaying)
+        protected override void InitAfterAwake()
         {
-            DontDestroyOnLoad(gameObject);
+
+        }
+
+        protected override void Init()
+        {
+            base.Init();
+            if (Application.isPlaying)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
 }
