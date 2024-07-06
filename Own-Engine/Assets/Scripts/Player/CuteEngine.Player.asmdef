@@ -1,0 +1,17 @@
+{
+    "name": "CuteEngine.Player",
+    "rootNamespace": "",
+    "references": [
+        "GUID:635296c273ef84f4ea1489960da9c871",
+        "GUID:d1d0ab18e504f1b4a8f1ef23241309db"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
